@@ -1,16 +1,20 @@
-import { defineConfig } from "vite";
-import tailwindcss from "@tailwindcss/vite";
-import { vitePluginTanStackStart } from "@lovable.dev/vite-tanstack-config";
+import { defineConfig } from "@lovable.dev/vite-tanstack-config";
+import { nitro } from "nitro/vite";
 
 export default defineConfig({
-  plugins: [
-    vitePluginTanStackStart({
-      routers: {
-        router: {
-          entry: "./src/router.tsx",
+  tanstackStart: {
+    server: { entry: "server" },
+  },
+  vite: {
+    plugins: [
+      nitro({
+        preset: "vercel",
+        output: {
+          dir: ".vercel/output",
+          serverDir: ".vercel/output/functions/__server.func",
+          publicDir: ".vercel/output/static",
         },
-      },
-    }),
-    tailwindcss(),
-  ],
+      }),
+    ],
+  },
 });
